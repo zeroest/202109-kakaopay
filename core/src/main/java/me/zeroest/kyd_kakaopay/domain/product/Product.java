@@ -1,9 +1,6 @@
 package me.zeroest.kyd_kakaopay.domain.product;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import me.zeroest.kyd_kakaopay.domain.base.BaseTimeEntity;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -19,6 +16,14 @@ import java.time.LocalDateTime;
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product extends BaseTimeEntity {
+
+    @Builder
+    public Product(String title, Long totalAmount, LocalDateTime startedAt, LocalDateTime finishedAt) {
+        this.title = title;
+        this.totalAmount = totalAmount;
+        this.startedAt = startedAt;
+        this.finishedAt = finishedAt;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
