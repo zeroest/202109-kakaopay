@@ -11,7 +11,7 @@ public enum ExceptionCode {
      * Common
      * */
     INTERNAL_SERVER_ERROR("INTERNAL_SERVER_ERROR", "Internal server error : "),
-    NOT_EXIST_ITEM("NOT_EXIST_ITEM", "Not exist item : "),
+    MISSING_X_USER_ID("MISSING_X_USER_ID", "Missing X-USER-ID header value : "),
 
 
     ;

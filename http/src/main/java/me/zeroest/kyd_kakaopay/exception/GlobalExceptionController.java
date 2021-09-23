@@ -8,9 +8,12 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
+
+import static me.zeroest.kyd_kakaopay.exception.ExceptionCode.MISSING_X_USER_ID;
 
 @RestControllerAdvice
 @Slf4j
@@ -64,6 +67,13 @@ public class GlobalExceptionController {
 
         return ApiUtil.fail(exception, "00", builder.toString(), HttpStatus.BAD_REQUEST);
 
+    }
+
+    @ExceptionHandler({MissingRequestHeaderException.class})
+    public ResponseEntity missingHeader(MissingRequestHeaderException exception) {
+        log.error("GlobalException:missingHeader" + exception.getClass().toString());
+
+        return ApiUtil.fail(exception, MISSING_X_USER_ID.getCode(), MISSING_X_USER_ID.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }

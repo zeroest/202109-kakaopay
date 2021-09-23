@@ -1,5 +1,6 @@
 package me.zeroest.kyd_kakaopay.controller;
 
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.zeroest.kyd_kakaopay.dto.product.ProductDto;
 import me.zeroest.kyd_kakaopay.dto.response.CommonResponse;
@@ -40,5 +41,14 @@ public class ProductController {
         return ApiUtil.success(CommonResponse.OK);
 
     }
+
+    @GetMapping("/my")
+    public ResponseEntity<String> getMyProduct(
+            @RequestHeader("X-USER-ID") String userId
+    ) {
+
+        return ApiUtil.success(CommonResponse.OK);
+    }
+
 
 }
