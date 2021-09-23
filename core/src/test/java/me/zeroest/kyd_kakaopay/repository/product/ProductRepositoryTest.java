@@ -2,6 +2,7 @@ package me.zeroest.kyd_kakaopay.repository.product;
 
 import com.querydsl.core.QueryResults;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -19,6 +20,7 @@ class ProductRepositoryTest {
     @Autowired
     private ProductRepository productRepository;
 
+    @DisplayName("findProductAll 은 startedAt finishedAt 사이에 존재하는 Product 를 페이징하여 반환한다.")
     @Test
     void getAllProduct() {
 

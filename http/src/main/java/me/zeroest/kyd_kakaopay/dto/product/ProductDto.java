@@ -11,16 +11,20 @@ import java.time.LocalDateTime;
 @ToString
 public class ProductDto {
 
-    public ProductDto(Product product) {
+    public ProductDto(Product product, long investedAmount, long investingCnt) {
         this.productId = product.getId();
         this.title = product.getTitle();
         this.totalInvestingAmount = product.getTotalAmount();
         this.startedAt = product.getStartedAt();
         this.finishedAt = product.getFinishedAt();
 
-//        this.currentInvestingAmount = currentInvestingAmount;
-//        this.investingCnt = investingCnt;
-//        this.investStatus = investStatus;
+        this.currentInvestingAmount = investedAmount;
+        this.investingCnt = investingCnt;
+
+        this.investStatus = InvestStatus.ONGOING;
+        if (totalInvestingAmount <= investedAmount) {
+            investStatus = InvestStatus.COMPLETE;
+        }
     }
 
     private Long productId;

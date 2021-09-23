@@ -19,6 +19,9 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductInvestStatus extends BaseTimeEntity {
 
+    public static final String REDIS_INVESTED_AMOUNT_PREFIX = "product:invested:amount:";
+    public static final String REDIS_INVESTING_CNT = "product:investing:cnt:";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "status_id", nullable = false)
@@ -31,6 +34,9 @@ public class ProductInvestStatus extends BaseTimeEntity {
 
     @Column(name = "invested_amount", nullable = false)
     private Long investedAmount;
+
+    @Column(name = "investing_cnt", nullable = false)
+    private Long investingCnt;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "investing_status", nullable = false)

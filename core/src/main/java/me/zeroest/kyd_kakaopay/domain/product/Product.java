@@ -18,7 +18,8 @@ import java.time.LocalDateTime;
 public class Product extends BaseTimeEntity {
 
     @Builder
-    public Product(String title, Long totalAmount, LocalDateTime startedAt, LocalDateTime finishedAt) {
+    public Product(Long id, String title, Long totalAmount, LocalDateTime startedAt, LocalDateTime finishedAt) {
+        this.id = id;
         this.title = title;
         this.totalAmount = totalAmount;
         this.startedAt = startedAt;

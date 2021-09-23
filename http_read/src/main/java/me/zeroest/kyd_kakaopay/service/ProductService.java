@@ -12,13 +12,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductService {
+
+    private final ProductRedisService productRedisService;
 
     private final ProductRepository productRepository;
 
@@ -27,10 +29,15 @@ public class ProductService {
 
         QueryResults<Product> productAll = productRepository.findProductAll(now, page);
 
-        List<ProductDto> productDtoList = productAll.getResults()
-                .stream()
-                .map(ProductDto::new)
-                .collect(Collectors.toList());
+        List<ProductDto> productDtoList = new ArrayList<>();
+
+        for (Product product : productAll.getResults()) {
+            productDtoList.add(new ProductDto(
+                    product,
+                    productRedisService.getInvestedAmount(product),
+                    productRedisService.getInvestingCnt(product)
+            ));
+        }
 
         return new PageResponse(productDtoList, productAll.getTotal());
 
