@@ -6,6 +6,7 @@ import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Table(name = "PRODUCT")
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @DynamicInsert
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Product extends BaseTimeEntity {
+public class Product extends BaseTimeEntity implements Serializable {
 
     @Builder
     public Product(Long id, String title, Long totalAmount, LocalDateTime startedAt, LocalDateTime finishedAt) {

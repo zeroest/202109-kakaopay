@@ -7,6 +7,7 @@ import me.zeroest.kyd_kakaopay.domain.product.Product;
 import me.zeroest.kyd_kakaopay.dto.product.ProductDto;
 import me.zeroest.kyd_kakaopay.dto.response.PageResponse;
 import me.zeroest.kyd_kakaopay.repository.product.ProductRepository;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,6 +42,10 @@ public class ProductService {
 
         return new PageResponse(productDtoList, productAll.getTotal());
 
+    }
+
+    @CacheEvict(value = "findProductAll", key = "#page")
+    public void getAllProductRefresh(Pageable page) {
     }
 
 }

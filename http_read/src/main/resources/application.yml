@@ -4,3 +4,6 @@ spring:
     include:
       - core
 
+#logging:
+#  level:
+#    root: debug

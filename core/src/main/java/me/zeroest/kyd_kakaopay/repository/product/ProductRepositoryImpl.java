@@ -3,6 +3,7 @@ package me.zeroest.kyd_kakaopay.repository.product;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
@@ -19,6 +20,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
         this.queryFactory = new JPAQueryFactory(em);
     }
 
+    @Cacheable(value = "findProductAll", key = "#page")
     @Override
     public QueryResults<Product> findProductAll(LocalDateTime now, Pageable page) {
 

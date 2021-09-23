@@ -2,6 +2,7 @@ package me.zeroest.kyd_kakaopay.controller;
 
 import lombok.RequiredArgsConstructor;
 import me.zeroest.kyd_kakaopay.dto.product.ProductDto;
+import me.zeroest.kyd_kakaopay.dto.response.CommonResponse;
 import me.zeroest.kyd_kakaopay.dto.response.PageResponse;
 import me.zeroest.kyd_kakaopay.service.ProductService;
 import me.zeroest.kyd_kakaopay.util.ApiUtil;
@@ -26,6 +27,17 @@ public class ProductController {
         final PageResponse<ProductDto> allProductPage = productService.getAllProduct(LocalDateTime.now(), page);
 
         return ApiUtil.success(allProductPage);
+
+    }
+
+    @GetMapping("/refresh")
+    public ResponseEntity<String> allProductRefresh(
+            Pageable page
+    ) {
+
+        productService.getAllProductRefresh(page);
+
+        return ApiUtil.success(CommonResponse.OK);
 
     }
 

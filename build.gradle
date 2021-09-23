@@ -42,6 +42,9 @@ subprojects {
         implementation 'org.springframework.boot:spring-boot-starter-web'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+        compile('org.springframework.boot:spring-boot-starter-cache')
+        compile group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.3'
+
         annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
         implementation 'org.springframework.boot:spring-boot-starter-validation'
