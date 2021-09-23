@@ -1,10 +1,11 @@
-package me.zeroest.kyd_kakaopay.domain.product;
+package me.zeroest.kyd_kakaopay.domain.product.status;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import me.zeroest.kyd_kakaopay.domain.base.BaseTimeEntity;
+import me.zeroest.kyd_kakaopay.domain.product.Product;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 

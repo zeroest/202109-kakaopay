@@ -1,12 +1,11 @@
 package me.zeroest.kyd_kakaopay.service;
 
 import com.querydsl.core.QueryResults;
-import me.zeroest.kyd_kakaopay.domain.product.InvestStatus;
+import me.zeroest.kyd_kakaopay.domain.product.status.InvestStatus;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
 import me.zeroest.kyd_kakaopay.dto.product.ProductDto;
 import me.zeroest.kyd_kakaopay.dto.response.PageResponse;
 import me.zeroest.kyd_kakaopay.repository.product.ProductRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -2,7 +2,7 @@ package me.zeroest.kyd_kakaopay.dto.product;
 
 import lombok.Getter;
 import lombok.ToString;
-import me.zeroest.kyd_kakaopay.domain.product.InvestStatus;
+import me.zeroest.kyd_kakaopay.domain.product.status.InvestStatus;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
 
 import java.time.LocalDateTime;

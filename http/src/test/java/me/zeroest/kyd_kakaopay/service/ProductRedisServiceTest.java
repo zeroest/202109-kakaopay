@@ -1,7 +1,7 @@
 package me.zeroest.kyd_kakaopay.service;
 
 import me.zeroest.kyd_kakaopay.domain.product.Product;
-import me.zeroest.kyd_kakaopay.domain.product.ProductInvestStatus;
+import me.zeroest.kyd_kakaopay.domain.product.status.ProductInvestStatus;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

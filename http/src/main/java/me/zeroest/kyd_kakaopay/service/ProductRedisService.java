@@ -2,7 +2,7 @@ package me.zeroest.kyd_kakaopay.service;
 
 import lombok.RequiredArgsConstructor;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
-import me.zeroest.kyd_kakaopay.domain.product.ProductInvestStatus;
+import me.zeroest.kyd_kakaopay.domain.product.status.ProductInvestStatus;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;

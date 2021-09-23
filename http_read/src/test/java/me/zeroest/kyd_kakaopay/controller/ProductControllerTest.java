@@ -1,6 +1,6 @@
 package me.zeroest.kyd_kakaopay.controller;
 
-import me.zeroest.kyd_kakaopay.domain.product.InvestStatus;
+import me.zeroest.kyd_kakaopay.domain.product.status.InvestStatus;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
 import me.zeroest.kyd_kakaopay.dto.product.ProductDto;
 import me.zeroest.kyd_kakaopay.dto.response.PageResponse;
