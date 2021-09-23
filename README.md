@@ -15,3 +15,7 @@ PRODUCT_INVEST_LOG 상품의 투자 로그 테이블
 을 구축하였다.
 
 ![erd](./readme_img/ERD.png)
+
+- index 설정 최적화
+- ehcache redis 캐시 최적화
+- x-user-id global exception 처리
