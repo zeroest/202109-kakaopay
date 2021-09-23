@@ -1,0 +1,6 @@
+rootProject.name = 'kyd_kakaopay'
+include 'core'
+include 'http'
+include 'http_read'
+include 'http_write'
+
