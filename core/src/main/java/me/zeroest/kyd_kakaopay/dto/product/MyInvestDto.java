@@ -1,6 +1,7 @@
 package me.zeroest.kyd_kakaopay.dto.product;
 
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import me.zeroest.kyd_kakaopay.domain.invest.log.InvestResult;
@@ -11,8 +12,10 @@ import java.time.LocalDateTime;
 @ToString
 public class MyInvestDto {
 
+    @Builder
     @QueryProjection
-    public MyInvestDto(Long productId, String title, Long totalInvestingAmount, Long myInvestingAmount, LocalDateTime investDate, Long accrueUserInvest, InvestResult investResult, String userId) {
+    public MyInvestDto(Long logId, Long productId, String title, Long totalInvestingAmount, Long myInvestingAmount, LocalDateTime investDate, Long accrueUserInvest, InvestResult investResult, String userId) {
+        this.logId = logId;
         this.productId = productId;
         this.title = title;
         this.totalInvestingAmount = totalInvestingAmount;
@@ -22,6 +25,8 @@ public class MyInvestDto {
         this.investResult = investResult;
         this.userId = userId;
     }
+
+    private Long logId;
 
     private Long productId;
 

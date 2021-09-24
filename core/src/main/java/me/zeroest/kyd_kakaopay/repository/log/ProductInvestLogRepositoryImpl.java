@@ -24,9 +24,9 @@ public class ProductInvestLogRepositoryImpl implements ProductInvestLogRepositor
     public QueryResults<MyInvestDto> findMyInvest(String userId, Pageable page) {
 
         return queryFactory.select(new QMyInvestDto(
-                product.id, product.title, product.totalAmount,
-                productInvestLog.investAmount, productInvestLog.createdDate, productInvestLog.accrueUserInvest,
-                productInvestLog.investResult, productInvestLog.userId
+                productInvestLog.id, product.id, product.title,
+                        product.totalAmount, productInvestLog.investAmount, productInvestLog.createdDate,
+                        productInvestLog.accrueUserInvest, productInvestLog.investResult, productInvestLog.userId
                 ))
                 .from(productInvestLog)
                 .innerJoin(productInvestLog.product, product)
