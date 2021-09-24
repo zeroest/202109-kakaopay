@@ -45,4 +45,11 @@ public class ProductInvestLog extends BaseTimeEntity {
     @Column(name = "fail_reason")
     private String failReason;
 
+
+    @Column(name = "accrue_user_invest", nullable = false)
+    private Long accrueUserInvest;
+
+    @Column(name = "accrue_product_invest", nullable = false)
+    private Long accrueProductInvest;
+
 }

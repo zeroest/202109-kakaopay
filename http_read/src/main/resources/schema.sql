@@ -21,6 +21,8 @@ CREATE TABLE `PRODUCT_INVEST_LOG`
     `product_id`    BIGINT(20) UNSIGNED NOT NULL,
     `invest_result` ENUM('SUCCESS','FAIL') NOT NULL,
     `fail_reason`   VARCHAR(100),
+    `accrue_user_invest`    BIGINT(20) UNSIGNED NOT NULL,
+    `accrue_product_invest` BIGINT(20) UNSIGNED NOT NULL,
     `reg_date`      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `mod_date`      DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (log_id)
