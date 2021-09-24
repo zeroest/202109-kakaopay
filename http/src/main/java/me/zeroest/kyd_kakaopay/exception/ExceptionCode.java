@@ -13,6 +13,11 @@ public enum ExceptionCode {
     INTERNAL_SERVER_ERROR("INTERNAL_SERVER_ERROR", "Internal server error : "),
     MISSING_X_USER_ID("MISSING_X_USER_ID", "Missing X-USER-ID header value : "),
 
+    /**
+     * InvestController
+     * */
+    INVEST_AMOUNT_OVER_FLOW("INVEST_AMOUNT_OVER_FLOW", "Invest amount more than total investing amount : "),
+    SOLD_OUT("SOLD_OUT", "Product is sold out : "),
 
     ;
 

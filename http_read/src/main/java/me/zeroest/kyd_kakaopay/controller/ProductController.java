@@ -3,6 +3,7 @@ package me.zeroest.kyd_kakaopay.controller;
 import lombok.RequiredArgsConstructor;
 import me.zeroest.kyd_kakaopay.dto.product.MyInvestDto;
 import me.zeroest.kyd_kakaopay.dto.product.ProductDto;
+import me.zeroest.kyd_kakaopay.dto.request.CommonRequest;
 import me.zeroest.kyd_kakaopay.dto.response.CommonResponse;
 import me.zeroest.kyd_kakaopay.dto.response.PageResponse;
 import me.zeroest.kyd_kakaopay.service.ProductService;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/product")
+@RequestMapping("/api/product")
 public class ProductController {
 
     private final ProductService productService;
@@ -44,7 +45,7 @@ public class ProductController {
 
     @GetMapping("/my/invest")
     public ResponseEntity<PageResponse<MyInvestDto>> getMyProduct(
-            @RequestHeader("X-USER-ID") String userId,
+            @RequestHeader(CommonRequest.X_USER_ID) String userId,
             Pageable page
     ) {
 
@@ -53,6 +54,5 @@ public class ProductController {
         return ApiUtil.success(myInvestPage);
 
     }
-
 
 }

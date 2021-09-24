@@ -109,7 +109,7 @@ class ProductControllerTest {
         int page = 0;
         int size = 10;
 
-        mvc.perform(MockMvcRequestBuilders.get("/product?page="+page+"&size="+size))
+        mvc.perform(MockMvcRequestBuilders.get("/api/product?page="+page+"&size="+size))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.totalCount").value(allProductExpected.getTotalCount()))
@@ -130,7 +130,7 @@ class ProductControllerTest {
         int page = 0;
         int size = 10;
 
-        mvc.perform(MockMvcRequestBuilders.get("/product/my/invest?page="+page+"&size="+size).header("X-USER-ID", userId))
+        mvc.perform(MockMvcRequestBuilders.get("/api/product/my/invest?page="+page+"&size="+size).header("X-USER-ID", userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.totalCount").value(getMyInvestExpected.getTotalCount()))
@@ -160,7 +160,7 @@ class ProductControllerTest {
         int page = 0;
         int size = 10;
 
-        mvc.perform(MockMvcRequestBuilders.get("/product/my/invest?page="+page+"&size="+size))
+        mvc.perform(MockMvcRequestBuilders.get("/api/product/my/invest?page="+page+"&size="+size))
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.result").value(false))
                 .andExpect(jsonPath("$.code").value(expected.getCode()))
