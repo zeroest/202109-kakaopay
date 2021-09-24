@@ -1,9 +1,6 @@
 package me.zeroest.kyd_kakaopay.domain.invest.log;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import me.zeroest.kyd_kakaopay.domain.base.BaseTimeEntity;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
 import org.hibernate.annotations.DynamicInsert;
@@ -19,6 +16,18 @@ import javax.persistence.*;
 @DynamicUpdate
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductInvestLog extends BaseTimeEntity {
+
+    @Builder
+    public ProductInvestLog(Long id, String userId, Long investAmount, Product product, InvestResult investResult, String failReason, Long accrueUserInvest, Long accrueProductInvest) {
+        this.id = id;
+        this.userId = userId;
+        this.investAmount = investAmount;
+        this.product = product;
+        this.investResult = investResult;
+        this.failReason = failReason;
+        this.accrueUserInvest = accrueUserInvest;
+        this.accrueProductInvest = accrueProductInvest;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
