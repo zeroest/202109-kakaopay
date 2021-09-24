@@ -1,7 +1,7 @@
 package me.zeroest.kyd_kakaopay.controller;
 
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import me.zeroest.kyd_kakaopay.dto.product.MyInvestDto;
 import me.zeroest.kyd_kakaopay.dto.product.ProductDto;
 import me.zeroest.kyd_kakaopay.dto.response.CommonResponse;
 import me.zeroest.kyd_kakaopay.dto.response.PageResponse;
@@ -42,12 +42,16 @@ public class ProductController {
 
     }
 
-    @GetMapping("/my")
-    public ResponseEntity<String> getMyProduct(
-            @RequestHeader("X-USER-ID") String userId
+    @GetMapping("/my/invest")
+    public ResponseEntity<PageResponse<MyInvestDto>> getMyProduct(
+            @RequestHeader("X-USER-ID") String userId,
+            Pageable page
     ) {
 
-        return ApiUtil.success(CommonResponse.OK);
+        final PageResponse<MyInvestDto> myInvestPage = productService.getMyInvest(userId, page);
+
+        return ApiUtil.success(myInvestPage);
+
     }
 
 

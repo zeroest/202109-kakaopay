@@ -4,6 +4,7 @@ import com.querydsl.core.QueryResults;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
+import me.zeroest.kyd_kakaopay.dto.product.MyInvestDto;
 import me.zeroest.kyd_kakaopay.dto.product.ProductDto;
 import me.zeroest.kyd_kakaopay.dto.response.PageResponse;
 import me.zeroest.kyd_kakaopay.repository.product.ProductRepository;
@@ -46,6 +47,12 @@ public class ProductService {
 
     @CacheEvict(value = "findProductAll", key = "#page")
     public void getAllProductRefresh(Pageable page) {
+    }
+
+    @Transactional(readOnly = true)
+    public PageResponse<MyInvestDto> getMyInvest(String userId, Pageable page) {
+
+        return null;
     }
 
 }
