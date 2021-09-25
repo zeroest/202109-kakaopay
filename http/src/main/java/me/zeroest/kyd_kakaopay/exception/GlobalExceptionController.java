@@ -1,6 +1,7 @@
 package me.zeroest.kyd_kakaopay.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import me.zeroest.kyd_kakaopay.dto.request.CommonRequest;
 import me.zeroest.kyd_kakaopay.util.ApiUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,7 +74,11 @@ public class GlobalExceptionController {
     public ResponseEntity missingHeader(MissingRequestHeaderException exception) {
         log.error("GlobalException:missingHeader" + exception.getClass().toString());
 
-        return ApiUtil.fail(exception, MISSING_X_USER_ID.getCode(), MISSING_X_USER_ID.getMessage(), HttpStatus.BAD_REQUEST);
+        if(CommonRequest.isXUserId(exception.getHeaderName())){
+            return ApiUtil.fail(exception, MISSING_X_USER_ID.getCode(), MISSING_X_USER_ID.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        return ApiUtil.fail(exception, exception.getClass().toString(), exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }
