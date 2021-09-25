@@ -17,8 +17,14 @@ public enum ExceptionCode {
      * InvestController
      * */
     NOT_EXIST_PRODUCT("NOT_EXIST_PRODUCT", "Not exist product : "),
+    NOT_EXIST_INVEST_LOG("NOT_EXIST_INVEST_LOG", "Not exist invest log : "),
     INVEST_AMOUNT_OVERFLOW("INVEST_AMOUNT_OVERFLOW", "Invest amount more than total investing amount : "),
     SOLD_OUT("SOLD_OUT", "Product is sold out : "),
+
+    /**
+     * RabbitMQ
+     * */
+    RABBITMQ_INVALID_MESSAGE("INVALID_MESSAGE", "Invalid message : "),
 
     ;
 

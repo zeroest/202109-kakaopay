@@ -3,4 +3,5 @@ include 'core'
 include 'http'
 include 'http_read'
 include 'http_write'
+include 'invest_server'
 

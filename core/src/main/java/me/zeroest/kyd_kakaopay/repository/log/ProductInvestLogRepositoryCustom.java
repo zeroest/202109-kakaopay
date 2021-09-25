@@ -8,4 +8,6 @@ public interface ProductInvestLogRepositoryCustom {
 
     QueryResults<MyInvestDto> findMyInvest(String userId, Pageable page);
 
+    long lastAccrueUserInvest(String userId, long productId);
+
 }

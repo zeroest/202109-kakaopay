@@ -107,6 +107,12 @@ project(':http_write'){
     }
 }
 
+project(':invest_server'){
+    dependencies {
+        compile project(':core')
+    }
+}
+
 
 // for QueryDSL
 task cleanGeneatedDir(type: Delete) {

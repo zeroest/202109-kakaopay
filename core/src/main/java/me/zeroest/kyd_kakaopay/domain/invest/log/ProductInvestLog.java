@@ -61,4 +61,9 @@ public class ProductInvestLog extends BaseTimeEntity {
     @Column(name = "accrue_product_invest", nullable = false)
     private Long accrueProductInvest;
 
+    public void updateLogSuccess() {
+        this.investResult = InvestResult.SUCCESS;
+        this.failReason = null;
+    }
+
 }

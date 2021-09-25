@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
 
+import java.util.Objects;
+
 import static me.zeroest.kyd_kakaopay.domain.invest.log.QProductInvestLog.productInvestLog;
 import static me.zeroest.kyd_kakaopay.domain.product.QProduct.product;
 
@@ -38,6 +40,28 @@ public class ProductInvestLogRepositoryImpl implements ProductInvestLogRepositor
                 .offset(page.getOffset())
                 .limit(page.getPageSize())
                 .fetchResults();
+
+    }
+
+    @Override
+    public long lastAccrueUserInvest(String userId, long productId) {
+
+        Long lastAccrueUserInvest = queryFactory.select(productInvestLog.accrueUserInvest.nullif(0L))
+                .from(productInvestLog)
+                .where(
+                        productInvestLog.userId.eq(userId)
+                        , productInvestLog.investResult.eq(InvestResult.SUCCESS)
+                        , productInvestLog.product.id.eq(productId)
+                )
+                .orderBy(productInvestLog.id.desc())
+                .limit(1L)
+                .fetchOne();
+
+        if (Objects.isNull(lastAccrueUserInvest)) {
+            lastAccrueUserInvest = 0L;
+        }
+
+        return lastAccrueUserInvest;
 
     }
 }

@@ -1,0 +1,18 @@
+
+spring:
+  profiles:
+    include:
+      - core
+
+  main:
+    web-application-type: none
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: username
+    password: password
+
+#logging:
+#  level:
+#    root: debug

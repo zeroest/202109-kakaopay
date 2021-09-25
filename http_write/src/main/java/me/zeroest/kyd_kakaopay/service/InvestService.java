@@ -2,16 +2,19 @@ package me.zeroest.kyd_kakaopay.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.zeroest.kyd_kakaopay.config.RabbitConfig;
+import me.zeroest.kyd_kakaopay.config.rabbitmq.RabbitConfig;
+import me.zeroest.kyd_kakaopay.domain.invest.log.InvestResult;
+import me.zeroest.kyd_kakaopay.domain.invest.log.ProductInvestLog;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
 import me.zeroest.kyd_kakaopay.domain.product.status.ProductInvestStatus;
 import me.zeroest.kyd_kakaopay.exception.BaseCustomException;
 import me.zeroest.kyd_kakaopay.exception.ExceptionCode;
 import me.zeroest.kyd_kakaopay.repository.ProductInvestStatusRepository;
+import me.zeroest.kyd_kakaopay.repository.log.ProductInvestLogRepository;
+import me.zeroest.kyd_kakaopay.service.rabbitmq.SendRabbitService;
 import me.zeroest.kyd_kakaopay.service.redisson.RedissonService;
 import org.redisson.api.RAtomicLong;
 import org.redisson.api.RedissonClient;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,9 +29,10 @@ public class InvestService {
     private final RedissonClient redissonClient;
     private final RedissonService redissonService;
 
-    private final RabbitTemplate rabbitTemplate;
+    private final SendRabbitService sendRabbitService;
 
     private final ProductInvestStatusRepository productInvestStatusRepository;
+    private final ProductInvestLogRepository productInvestLogRepository;
 
     @Transactional(readOnly = true)
     public long invest(String userId, Long productId, Long investAmount) {
@@ -47,6 +51,7 @@ public class InvestService {
         }
 
         AtomicLong resultAmount = new AtomicLong();
+        AtomicLong lastAccureUserInvest = new AtomicLong(0L);
         redissonService.locking(investStatus.getRedisLockKeyByProductId(), () -> {
 
             final RAtomicLong investedAmount = redissonClient.getAtomicLong(investStatus.getRedisInvestedAmountKey());
@@ -63,11 +68,28 @@ public class InvestService {
 
             resultAmount.set(investedAmount.addAndGet(investAmount));
 
-        });
+            lastAccureUserInvest.set(productInvestLogRepository.lastAccrueUserInvest(userId, productId));
 
+        });
+        log.info("Success request invest validation");
+
+        // Save invest log
+        final ProductInvestLog investLog = ProductInvestLog.builder()
+                .userId(userId)
+                .investAmount(investAmount)
+                .product(product)
+                .investResult(InvestResult.FAIL)
+                .failReason(InvestResult.MESSAGE_PENDING)
+                .accrueUserInvest(lastAccureUserInvest.get() + investAmount)
+                .accrueProductInvest(resultAmount.get())
+                .build();
+        final ProductInvestLog investLogResult = productInvestLogRepository.save(investLog);
 
         // Send message to invest
-        rabbitTemplate.convertAndSend(RabbitConfig.requestInvestExchange, "", userId + ":" + productId + ":" + investAmount);
+        sendRabbitService.sendMessage(
+                RabbitConfig.REQUEST_INVEST_EXCHANGE,
+                RabbitConfig.makeInvestSuccessMessage(productId, investLogResult.getId())
+        );
 
         return resultAmount.get();
 

@@ -137,4 +137,26 @@ class ProductInvestLogRepositoryImplTest {
 
     }
 
+
+
+    @DisplayName("lastAccrueUserInvest - 마지막 product 의 투자금액을 반환한다.")
+    @Test
+    void lastAccrueUserInvest() {
+
+        final long lastAccrueUserInvest = productInvestLogRepository.lastAccrueUserInvest(userId, 1L);
+
+        assertEquals(320L, lastAccrueUserInvest);
+
+    }
+
+    @DisplayName("lastAccrueUserInvest - 투자기록이 없을시 0을 반환한다.")
+    @Test
+    void lastAccrueEmpty0() {
+
+        final long lastAccrueUserInvest = productInvestLogRepository.lastAccrueUserInvest("user3", 1L);
+
+        assertEquals(0L, lastAccrueUserInvest);
+
+    }
+
 }
