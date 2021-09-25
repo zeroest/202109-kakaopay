@@ -1,9 +1,6 @@
 package me.zeroest.kyd_kakaopay.domain.product.status;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import me.zeroest.kyd_kakaopay.domain.base.BaseTimeEntity;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
 import org.hibernate.annotations.DynamicInsert;
@@ -21,7 +18,17 @@ import javax.persistence.*;
 public class ProductInvestStatus extends BaseTimeEntity {
 
     public static final String REDIS_INVESTED_AMOUNT_PREFIX = "product:invested:amount:";
-    public static final String REDIS_INVESTING_CNT = "product:investing:cnt:";
+    public static final String REDIS_INVESTING_CNT_PREFIX = "product:investing:cnt:";
+    public static final String REDIS_LOCK_PRODUCT_ID_PREFIX = "lock:product:id:";
+
+    @Builder
+    public ProductInvestStatus(Long id, Product product, Long investedAmount, Long investingCnt, InvestStatus investStatus) {
+        this.id = id;
+        this.product = product;
+        this.investedAmount = investedAmount;
+        this.investingCnt = investingCnt;
+        this.investStatus = investStatus;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,5 +49,17 @@ public class ProductInvestStatus extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "investing_status", nullable = false)
     private InvestStatus investStatus;
+
+
+    public boolean isCompleted() {
+        return investStatus == InvestStatus.COMPLETE;
+    }
+
+    public String getRedisInvestedAmountKey() {
+        return REDIS_INVESTED_AMOUNT_PREFIX + product.getId();
+    }
+    public String getRedisLockKeyByProductId() {
+        return REDIS_LOCK_PRODUCT_ID_PREFIX + product.getId();
+    }
 
 }

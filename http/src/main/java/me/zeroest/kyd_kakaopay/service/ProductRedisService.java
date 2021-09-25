@@ -35,7 +35,7 @@ public class ProductRedisService {
         ValueOperations valueOps = redisTemplate.opsForValue();
 
         try {
-            return Long.parseLong(valueOps.get(ProductInvestStatus.REDIS_INVESTING_CNT + productId).toString());
+            return Long.parseLong(valueOps.get(ProductInvestStatus.REDIS_INVESTING_CNT_PREFIX + productId).toString());
         }catch (NullPointerException npe){
             return 0L;
         }

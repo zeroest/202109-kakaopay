@@ -16,7 +16,8 @@ public enum ExceptionCode {
     /**
      * InvestController
      * */
-    INVEST_AMOUNT_OVER_FLOW("INVEST_AMOUNT_OVER_FLOW", "Invest amount more than total investing amount : "),
+    NOT_EXIST_PRODUCT("NOT_EXIST_PRODUCT", "Not exist product : "),
+    INVEST_AMOUNT_OVERFLOW("INVEST_AMOUNT_OVERFLOW", "Invest amount more than total investing amount : "),
     SOLD_OUT("SOLD_OUT", "Product is sold out : "),
 
     ;

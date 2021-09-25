@@ -28,13 +28,13 @@ class ProductRedisServiceTest {
     @BeforeEach()
     void beforeEach() {
         ValueOperations valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(ProductInvestStatus.REDIS_INVESTING_CNT + productId, expectedInvestingCnt + "");
+        valueOperations.set(ProductInvestStatus.REDIS_INVESTING_CNT_PREFIX + productId, expectedInvestingCnt + "");
         valueOperations.set(ProductInvestStatus.REDIS_INVESTED_AMOUNT_PREFIX + productId, expectedInvestedAmount + "");
     }
 
     @AfterEach
     void afterEach() {
-        redisTemplate.delete(ProductInvestStatus.REDIS_INVESTING_CNT + productId);
+        redisTemplate.delete(ProductInvestStatus.REDIS_INVESTING_CNT_PREFIX + productId);
         redisTemplate.delete(ProductInvestStatus.REDIS_INVESTED_AMOUNT_PREFIX + productId);
     }
 
