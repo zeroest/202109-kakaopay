@@ -1,4 +1,4 @@
-package me.zeroest.kyd_kakaopay.repository.log;
+package me.zeroest.kyd_kakaopay.repository.invest.log;
 
 import com.querydsl.core.QueryResults;
 import me.zeroest.kyd_kakaopay.dto.product.MyInvestDto;

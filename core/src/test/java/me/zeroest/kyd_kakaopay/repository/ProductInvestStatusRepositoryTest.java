@@ -3,6 +3,7 @@ package me.zeroest.kyd_kakaopay.repository;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
 import me.zeroest.kyd_kakaopay.domain.product.status.InvestStatus;
 import me.zeroest.kyd_kakaopay.domain.product.status.ProductInvestStatus;
+import me.zeroest.kyd_kakaopay.repository.invest.status.ProductInvestStatusRepository;
 import me.zeroest.kyd_kakaopay.repository.product.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

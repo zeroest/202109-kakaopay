@@ -1,11 +1,14 @@
 package me.zeroest.kyd_kakaopay.service;
 
+import me.zeroest.kyd_kakaopay.domain.invest.log.ProductInvestLog;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
 import me.zeroest.kyd_kakaopay.domain.product.status.InvestStatus;
 import me.zeroest.kyd_kakaopay.domain.product.status.ProductInvestStatus;
 import me.zeroest.kyd_kakaopay.exception.BaseCustomException;
 import me.zeroest.kyd_kakaopay.exception.ExceptionCode;
-import me.zeroest.kyd_kakaopay.repository.ProductInvestStatusRepository;
+import me.zeroest.kyd_kakaopay.repository.invest.log.ProductInvestLogRepository;
+import me.zeroest.kyd_kakaopay.repository.invest.status.ProductInvestStatusRepository;
+import me.zeroest.kyd_kakaopay.service.rabbitmq.SendRabbitService;
 import me.zeroest.kyd_kakaopay.service.redisson.LockingWork;
 import me.zeroest.kyd_kakaopay.service.redisson.RedissonService;
 import org.junit.jupiter.api.DisplayName;
@@ -15,13 +18,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.redisson.api.RAtomicLong;
+import org.redisson.api.RSet;
 import org.redisson.api.RedissonClient;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,9 +33,13 @@ class InvestServiceTest {
     @Mock
     private ProductInvestStatusRepository productInvestStatusRepository;
     @Mock
+    private ProductInvestLogRepository productInvestLogRepository;
+    @Mock
     private RedissonClient redissonClient;
     @Mock
     private RedissonService redissonService;
+    @Mock
+    private SendRabbitService sendRabbitService;
 
     @InjectMocks
     private InvestService investService;
@@ -40,7 +47,10 @@ class InvestServiceTest {
     private String userId = "userId";
 
     @Mock
-    RAtomicLong investedAmount;
+    private RAtomicLong investedAmount;
+    @Mock
+    private RSet rSet;
+
 
 
     @DisplayName("invest - 투자 성공시 redis 에 investAmount 값이 추가된다.")
@@ -62,13 +72,23 @@ class InvestServiceTest {
                                 .investStatus(InvestStatus.ONGOING)
                                 .build()
                 ));
+        when(productInvestLogRepository.lastAccrueUserInvest(anyString(), any(Long.class)))
+                .thenReturn(0L);
+        when(productInvestLogRepository.save(any(ProductInvestLog.class)))
+                .thenReturn(ProductInvestLog.builder().id(1L).build());
 
         when(investedAmount.get())
                 .thenReturn(areadyInvestAmount);
         when(investedAmount.addAndGet(any(Long.class)))
                 .thenReturn(areadyInvestAmount+investAmount);
+
         when(redissonClient.getAtomicLong(anyString()))
                 .thenReturn(investedAmount);
+        when(rSet.add(any()))
+                .thenReturn(true);
+        when(redissonClient.getSet(anyString()))
+                .thenReturn(rSet);
+
         when(redissonService.locking(anyString(), any(LockingWork.class)))
                 .thenAnswer((invocation -> {
                     final LockingWork callback = invocation.getArgument(1);

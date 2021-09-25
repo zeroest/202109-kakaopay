@@ -1,4 +1,4 @@
-package me.zeroest.kyd_kakaopay.repository;
+package me.zeroest.kyd_kakaopay.repository.invest.status;
 
 import me.zeroest.kyd_kakaopay.domain.product.status.ProductInvestStatus;
 import org.springframework.data.jpa.repository.EntityGraph;

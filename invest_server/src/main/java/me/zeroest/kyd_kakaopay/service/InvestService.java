@@ -7,8 +7,8 @@ import me.zeroest.kyd_kakaopay.domain.product.Product;
 import me.zeroest.kyd_kakaopay.domain.product.status.ProductInvestStatus;
 import me.zeroest.kyd_kakaopay.dto.rabbitmq.InvestMessage;
 import me.zeroest.kyd_kakaopay.exception.BaseCustomException;
-import me.zeroest.kyd_kakaopay.repository.ProductInvestStatusRepository;
-import me.zeroest.kyd_kakaopay.repository.log.ProductInvestLogRepository;
+import me.zeroest.kyd_kakaopay.repository.invest.status.ProductInvestStatusRepository;
+import me.zeroest.kyd_kakaopay.repository.invest.log.ProductInvestLogRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,7 +49,7 @@ public class InvestService {
         // Update invest status
         productInvestStatus.applyInvestResult(
                 product.getTotalAmount(),
-                productInvestLog.getAccrueProductInvest(),
+                productRedisService.getInvestedAmount(product),
                 productRedisService.getInvestingCnt(product)
         );
 

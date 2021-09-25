@@ -7,7 +7,7 @@ import me.zeroest.kyd_kakaopay.domain.product.Product;
 import me.zeroest.kyd_kakaopay.dto.product.MyInvestDto;
 import me.zeroest.kyd_kakaopay.dto.product.ProductDto;
 import me.zeroest.kyd_kakaopay.dto.response.PageResponse;
-import me.zeroest.kyd_kakaopay.repository.log.ProductInvestLogRepository;
+import me.zeroest.kyd_kakaopay.repository.invest.log.ProductInvestLogRepository;
 import me.zeroest.kyd_kakaopay.repository.product.ProductRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Pageable;

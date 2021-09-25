@@ -5,6 +5,7 @@ import me.zeroest.kyd_kakaopay.domain.invest.log.InvestResult;
 import me.zeroest.kyd_kakaopay.domain.invest.log.ProductInvestLog;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
 import me.zeroest.kyd_kakaopay.dto.product.MyInvestDto;
+import me.zeroest.kyd_kakaopay.repository.invest.log.ProductInvestLogRepository;
 import me.zeroest.kyd_kakaopay.repository.product.ProductRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -143,7 +144,9 @@ class ProductInvestLogRepositoryImplTest {
     @Test
     void lastAccrueUserInvest() {
 
-        final long lastAccrueUserInvest = productInvestLogRepository.lastAccrueUserInvest(userId, 1L);
+        final List<Product> all = productRepository.findAll();
+
+        final long lastAccrueUserInvest = productInvestLogRepository.lastAccrueUserInvest(userId, all.get(0).getId());
 
         assertEquals(320L, lastAccrueUserInvest);
 
