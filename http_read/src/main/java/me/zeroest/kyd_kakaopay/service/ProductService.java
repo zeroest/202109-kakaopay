@@ -7,7 +7,7 @@ import me.zeroest.kyd_kakaopay.domain.product.Product;
 import me.zeroest.kyd_kakaopay.dto.product.MyInvestDto;
 import me.zeroest.kyd_kakaopay.dto.product.ProductDto;
 import me.zeroest.kyd_kakaopay.dto.response.PageResponse;
-import me.zeroest.kyd_kakaopay.repository.invest.log.ProductInvestLogRepository;
+import me.zeroest.kyd_kakaopay.repository.invest.user.ProductInvestUserRepository;
 import me.zeroest.kyd_kakaopay.repository.product.ProductRepository;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +26,7 @@ public class ProductService {
     private final ProductRedisService productRedisService;
 
     private final ProductRepository productRepository;
-    private final ProductInvestLogRepository productInvestLogRepository;
+    private final ProductInvestUserRepository productInvestUserRepository;
 
     @Transactional(readOnly = true)
     public PageResponse<ProductDto> getAllProduct(LocalDateTime now, Pageable page) {
@@ -54,7 +54,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public PageResponse<MyInvestDto> getMyInvest(String userId, Pageable page) {
 
-        final QueryResults<MyInvestDto> myInvest = productInvestLogRepository.findMyInvest(userId, page);
+        final QueryResults<MyInvestDto> myInvest = productInvestUserRepository.findMyInvest(userId, page);
 
         return new PageResponse(myInvest.getResults(), myInvest.getTotal());
     }

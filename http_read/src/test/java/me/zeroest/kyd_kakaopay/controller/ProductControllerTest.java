@@ -73,26 +73,20 @@ class ProductControllerTest {
 
         final List<MyInvestDto> myInvestDtoList = Arrays.asList(
                 MyInvestDto.builder()
-                        .logId(2L)
                         .productId(1L)
+                        .userId(userId)
                         .title("product")
                         .totalInvestingAmount(1000L)
                         .myInvestingAmount(100L)
                         .investDate(LocalDateTime.now())
-                        .accrueUserInvest(200L)
-                        .investResult(InvestResult.SUCCESS)
-                        .userId(userId)
                         .build(),
                 MyInvestDto.builder()
-                        .logId(1L)
-                        .productId(1L)
+                        .productId(2L)
+                        .userId(userId)
                         .title("product")
                         .totalInvestingAmount(1000L)
                         .myInvestingAmount(100L)
                         .investDate(LocalDateTime.now())
-                        .accrueUserInvest(100L)
-                        .investResult(InvestResult.SUCCESS)
-                        .userId(userId)
                         .build()
         );
         getMyInvestExpected = new PageResponse(myInvestDtoList, (long) myInvestDtoList.size());
@@ -134,20 +128,14 @@ class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result").value(true))
                 .andExpect(jsonPath("$.data.totalCount").value(getMyInvestExpected.getTotalCount()))
-                .andExpect(jsonPath("$.data.list[0].logId").value(2L))
                 .andExpect(jsonPath("$.data.list[0].productId").value(1L))
+                .andExpect(jsonPath("$.data.list[0].userId").value(userId))
                 .andExpect(jsonPath("$.data.list[0].totalInvestingAmount").value(1000L))
                 .andExpect(jsonPath("$.data.list[0].myInvestingAmount").value(100L))
-                .andExpect(jsonPath("$.data.list[0].accrueUserInvest").value(200L))
-                .andExpect(jsonPath("$.data.list[0].investResult").value(InvestResult.SUCCESS.toString()))
-                .andExpect(jsonPath("$.data.list[0].userId").value(userId))
-                .andExpect(jsonPath("$.data.list[1].logId").value(1L))
-                .andExpect(jsonPath("$.data.list[1].productId").value(1L))
+                .andExpect(jsonPath("$.data.list[1].productId").value(2L))
+                .andExpect(jsonPath("$.data.list[1].userId").value(userId))
                 .andExpect(jsonPath("$.data.list[1].totalInvestingAmount").value(1000L))
-                .andExpect(jsonPath("$.data.list[1].myInvestingAmount").value(100L))
-                .andExpect(jsonPath("$.data.list[1].accrueUserInvest").value(100L))
-                .andExpect(jsonPath("$.data.list[1].investResult").value(InvestResult.SUCCESS.toString()))
-                .andExpect(jsonPath("$.data.list[1].userId").value(userId));
+                .andExpect(jsonPath("$.data.list[1].myInvestingAmount").value(100L));
 
     }
 

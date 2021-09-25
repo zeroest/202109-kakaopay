@@ -14,21 +14,18 @@ public class MyInvestDto {
 
     @Builder
     @QueryProjection
-    public MyInvestDto(Long logId, Long productId, String title, Long totalInvestingAmount, Long myInvestingAmount, LocalDateTime investDate, Long accrueUserInvest, InvestResult investResult, String userId) {
-        this.logId = logId;
+    public MyInvestDto(Long productId, String userId, String title, Long totalInvestingAmount, Long myInvestingAmount, LocalDateTime investDate) {
         this.productId = productId;
+        this.userId = userId;
         this.title = title;
         this.totalInvestingAmount = totalInvestingAmount;
         this.myInvestingAmount = myInvestingAmount;
         this.investDate = investDate;
-        this.accrueUserInvest = accrueUserInvest;
-        this.investResult = investResult;
-        this.userId = userId;
     }
 
-    private Long logId;
-
     private Long productId;
+
+    private String userId;
 
     private String title;
 
@@ -37,11 +34,5 @@ public class MyInvestDto {
     private Long myInvestingAmount;
 
     private LocalDateTime investDate;
-
-    private Long accrueUserInvest;
-
-    private InvestResult investResult;
-
-    private String userId;
 
 }

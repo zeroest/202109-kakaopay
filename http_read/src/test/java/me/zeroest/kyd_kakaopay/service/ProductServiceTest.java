@@ -7,7 +7,7 @@ import me.zeroest.kyd_kakaopay.domain.product.Product;
 import me.zeroest.kyd_kakaopay.dto.product.MyInvestDto;
 import me.zeroest.kyd_kakaopay.dto.product.ProductDto;
 import me.zeroest.kyd_kakaopay.dto.response.PageResponse;
-import me.zeroest.kyd_kakaopay.repository.invest.log.ProductInvestLogRepository;
+import me.zeroest.kyd_kakaopay.repository.invest.user.ProductInvestUserRepository;
 import me.zeroest.kyd_kakaopay.repository.product.ProductRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class ProductServiceTest {
     @Mock
     private ProductRepository productRepository;
     @Mock
-    private ProductInvestLogRepository productInvestLogRepository;
+    private ProductInvestUserRepository productInvestUserRepository;
     @Mock
     private ProductRedisService productRedisService;
 
@@ -119,17 +119,15 @@ class ProductServiceTest {
         QueryResults<MyInvestDto> queryResults = new QueryResults(Arrays.asList(
                 MyInvestDto.builder()
                         .productId(1L)
+                        .userId(userId)
                         .title("title")
                         .totalInvestingAmount(1000L)
                         .myInvestingAmount(100L)
                         .investDate(investDate)
-                        .accrueUserInvest(100L)
-                        .investResult(InvestResult.SUCCESS)
-                        .userId(userId)
                         .build()
         ), 10L, 0L, 1);
 
-        when(productInvestLogRepository.findMyInvest(anyString(), any(Pageable.class)))
+        when(productInvestUserRepository.findMyInvest(anyString(), any(Pageable.class)))
                 .thenReturn( queryResults);
 
         PageResponse<MyInvestDto> myInvestPage = productService.getMyInvest(userId, PageRequest.of(0, 10));
@@ -141,8 +139,6 @@ class ProductServiceTest {
         assertEquals(1000L, myInvestDto.getTotalInvestingAmount());
         assertEquals(100L, myInvestDto.getMyInvestingAmount());
         assertEquals(investDate, myInvestDto.getInvestDate());
-        assertEquals(100L, myInvestDto.getAccrueUserInvest());
-        assertEquals(InvestResult.SUCCESS, myInvestDto.getInvestResult());
         assertEquals(userId, myInvestDto.getUserId());
 
     }

@@ -98,46 +98,6 @@ class ProductInvestLogRepositoryImplTest {
 
     }
 
-    @DisplayName("findMyInvest 은 MyInvestDto 를 페이징하여 반환한다.")
-    @Test
-    void findMyInvestPaging() {
-
-        QueryResults<MyInvestDto> myInvestPage = productInvestLogRepository.findMyInvest(userId, PageRequest.of(0, 1));
-
-        List<MyInvestDto> myInvestDtoList = myInvestPage.getResults();
-        assertEquals(3, myInvestPage.getTotal());
-        assertEquals(1, myInvestDtoList.size());
-
-    }
-
-    @DisplayName("findMyInvest 은 investResult 가 SUCCESS 인 데이터만 반환한다.")
-    @Test
-    void findMyInvestSuccess() {
-
-        QueryResults<MyInvestDto> myInvestPage = productInvestLogRepository.findMyInvest(userId, PageRequest.of(0, 10));
-
-        List<MyInvestDto> myInvestDtoList = myInvestPage.getResults();
-
-        for (MyInvestDto dto : myInvestDtoList) {
-            assertEquals(InvestResult.SUCCESS, dto.getInvestResult());
-        }
-
-    }
-
-    @DisplayName("findMyInvest 은 userId 를 기준으로 자신의 기록만 반환한다.")
-    @Test
-    void findMyInvestOwn() {
-
-        QueryResults<MyInvestDto> myInvestPage = productInvestLogRepository.findMyInvest(userId, PageRequest.of(0, 10));
-
-        List<MyInvestDto> myInvestDtoList = myInvestPage.getResults();
-
-        for (MyInvestDto dto : myInvestDtoList) {
-            assertEquals(userId, dto.getUserId());
-        }
-
-    }
-
 
 
     @DisplayName("lastAccrueUserInvest - 마지막 product 의 투자금액을 반환한다.")
