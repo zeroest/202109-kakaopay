@@ -3,7 +3,6 @@ package me.zeroest.kyd_kakaopay.service;
 import com.querydsl.core.QueryResults;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.zeroest.kyd_kakaopay.domain.invest.log.ProductInvestLog;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
 import me.zeroest.kyd_kakaopay.dto.product.MyInvestDto;
 import me.zeroest.kyd_kakaopay.dto.product.ProductDto;

@@ -70,6 +70,8 @@ public class InvestService {
 
             lastAccureUserInvest.set(productInvestLogRepository.lastAccrueUserInvest(userId, productId));
 
+            redissonClient.getSet(investStatus.getRedisInvestingCntKey()).add(userId);
+
         });
         log.info("Success request invest validation");
 

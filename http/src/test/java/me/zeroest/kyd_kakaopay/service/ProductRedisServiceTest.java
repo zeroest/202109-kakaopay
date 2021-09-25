@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,8 +29,10 @@ class ProductRedisServiceTest {
     @BeforeEach()
     void beforeEach() {
         ValueOperations valueOperations = redisTemplate.opsForValue();
-        valueOperations.set(ProductInvestStatus.REDIS_INVESTING_CNT_PREFIX + productId, expectedInvestingCnt + "");
         valueOperations.set(ProductInvestStatus.REDIS_INVESTED_AMOUNT_PREFIX + productId, expectedInvestedAmount + "");
+
+        final SetOperations setOperations = redisTemplate.opsForSet();
+        setOperations.add(ProductInvestStatus.REDIS_INVESTING_CNT_PREFIX + productId,  "a", "b", "c");
     }
 
     @AfterEach

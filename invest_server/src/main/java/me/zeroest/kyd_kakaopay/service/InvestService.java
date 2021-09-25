@@ -22,6 +22,8 @@ import static me.zeroest.kyd_kakaopay.exception.ExceptionCode.NOT_EXIST_PRODUCT;
 @RequiredArgsConstructor
 public class InvestService {
 
+    private final ProductRedisService productRedisService;
+
     private final ProductInvestStatusRepository productInvestStatusRepository;
     private final ProductInvestLogRepository productInvestLogRepository;
 
@@ -45,7 +47,11 @@ public class InvestService {
         }
 
         // Update invest status
-        productInvestStatus.applyInvestResult(product.getTotalAmount(), productInvestLog.getAccrueProductInvest());
+        productInvestStatus.applyInvestResult(
+                product.getTotalAmount(),
+                productInvestLog.getAccrueProductInvest(),
+                productRedisService.getInvestingCnt(product)
+        );
 
     }
 

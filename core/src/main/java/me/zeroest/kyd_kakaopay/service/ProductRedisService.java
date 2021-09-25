@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
 import me.zeroest.kyd_kakaopay.domain.product.status.ProductInvestStatus;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ public class ProductRedisService {
     private final RedisTemplate redisTemplate;
 
     public long getInvestedAmount(long productId) {
-        ValueOperations valueOps = redisTemplate.opsForValue();
+        final ValueOperations valueOps = redisTemplate.opsForValue();
 
         try{
             return Long.parseLong(valueOps.get(ProductInvestStatus.REDIS_INVESTED_AMOUNT_PREFIX + productId).toString());
@@ -32,10 +33,10 @@ public class ProductRedisService {
     }
 
     public long getInvestingCnt(long productId) {
-        ValueOperations valueOps = redisTemplate.opsForValue();
+        final SetOperations setOperations = redisTemplate.opsForSet();
 
         try {
-            return Long.parseLong(valueOps.get(ProductInvestStatus.REDIS_INVESTING_CNT_PREFIX + productId).toString());
+            return setOperations.size(ProductInvestStatus.REDIS_INVESTING_CNT_PREFIX + productId);
         }catch (NullPointerException npe){
             return 0L;
         }

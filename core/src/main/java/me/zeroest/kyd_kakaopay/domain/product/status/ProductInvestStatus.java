@@ -58,12 +58,15 @@ public class ProductInvestStatus extends BaseTimeEntity {
     public String getRedisInvestedAmountKey() {
         return REDIS_INVESTED_AMOUNT_PREFIX + product.getId();
     }
+    public String getRedisInvestingCntKey() {
+        return REDIS_INVESTING_CNT_PREFIX + product.getId();
+    }
     public String getRedisLockKeyByProductId() {
         return REDIS_LOCK_PRODUCT_ID_PREFIX + product.getId();
     }
 
-    public void applyInvestResult(long totalInvestingAmount, long investedAmount) {
-        this.investingCnt++;
+    public void applyInvestResult(long totalInvestingAmount, long investedAmount, long investingCnt) {
+        this.investingCnt = investingCnt;
         this.investedAmount = investedAmount;
         if(investedAmount >= totalInvestingAmount){
             this.investStatus = InvestStatus.COMPLETE;
