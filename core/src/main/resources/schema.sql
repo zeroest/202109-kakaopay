@@ -44,17 +44,12 @@ CREATE TABLE IF NOT EXISTS `PRODUCT_INVEST_STATUS`
 CREATE UNIQUE INDEX PRODUCT_INVEST_STATUS_product_id_IDX ON PRODUCT_INVEST_STATUS (product_id);
 
 
-
-
-INSERT INTO PRODUCT (reg_date, mod_date, title, total_investing_amount, started_at, finished_at)
-VALUES (now(), now(), 'product1', 100, '2021-09-21', '2021-09-25');
-
-INSERT INTO PRODUCT_INVEST_STATUS (reg_date, mod_date, product_id, invested_amount, investing_cnt,
-                                   investing_status)
-VALUES (NOW(), NOW(), 1, 0, 0, 'ONGOING');
-
-
-
-INSERT INTO PRODUCT_INVEST_LOG (reg_date, mod_date, user_id, invest_amount, product_id, invest_result,
-                                fail_reason, accrue_user_invest, accrue_product_invest)
-VALUES (NOW(), NOW(), 'userId', 100, 1, 'SUCCESS', NULL, 100, 100);
+CREATE TABLE IF NOT EXISTS `PRODUCT_INVEST_USER`
+(
+   `user_id`	VARCHAR(100)	NOT NULL,
+   `product_id`	BIGINT(20) UNSIGNED	NOT NULL,
+   `total_invest_amount`	BIGINT(20) UNSIGNED	NOT NULL,
+   `reg_date`	DATETIME	NOT NULL	DEFAULT CURRENT_TIMESTAMP,
+   `mod_date`	DATETIME	NOT NULL	DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id, product_id)
+);
