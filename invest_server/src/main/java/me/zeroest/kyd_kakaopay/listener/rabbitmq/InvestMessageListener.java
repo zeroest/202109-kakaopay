@@ -23,7 +23,11 @@ public class InvestMessageListener {
         log.info("message : {}", message);
         final String body = new String(message.getBody(), StandardCharsets.UTF_8);
 
-        investService.investSuccess(new InvestMessage(body));
+        try {
+            investService.investSuccess(new InvestMessage(body));
+        }catch (Exception e){
+            log.error(e.getMessage(), e);
+        }
 
     }
 

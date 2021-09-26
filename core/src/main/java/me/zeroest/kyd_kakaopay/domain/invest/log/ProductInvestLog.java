@@ -66,4 +66,8 @@ public class ProductInvestLog extends BaseTimeEntity {
         this.failReason = null;
     }
 
+    public void updateLogFail(String failReason) {
+        this.failReason = failReason;
+    }
+
 }

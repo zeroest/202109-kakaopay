@@ -34,7 +34,7 @@ public class InvestService {
     private final ProductInvestStatusRepository productInvestStatusRepository;
     private final ProductInvestLogRepository productInvestLogRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional
     public long invest(String userId, Long productId, Long investAmount) {
 
         // exist product

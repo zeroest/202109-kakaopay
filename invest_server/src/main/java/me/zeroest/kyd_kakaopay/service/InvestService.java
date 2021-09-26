@@ -37,41 +37,51 @@ public class InvestService {
 
         // Get log data
         final ProductInvestLog productInvestLog = productInvestLogRepository.findById(investMessage.getInvestLogId())
-                .orElseThrow(() -> new BaseCustomException(NOT_EXIST_INVEST_LOG));
+                .orElseThrow(() -> new BaseCustomException(
+                        NOT_EXIST_INVEST_LOG.getMessage() + investMessage.getInvestLogId()
+                        , NOT_EXIST_INVEST_LOG.getCode()
+                        )
+                );
 
-        // Update invest log
-        productInvestLog.updateLogSuccess();
+        try{
+
+            // Update invest log
+            productInvestLog.updateLogSuccess();
 
 
-        // Get product status
-        final ProductInvestStatus productInvestStatus = productInvestStatusRepository.findByProductId(investMessage.getProductId())
-                .orElseThrow(() -> new BaseCustomException(NOT_EXIST_PRODUCT));
-        final Product product = productInvestLog.getProduct();
-        if (Objects.isNull(product)) {
-            throw new BaseCustomException(NOT_EXIST_PRODUCT);
-        }
+            // Get product status
+            final ProductInvestStatus productInvestStatus = productInvestStatusRepository.findByProductId(investMessage.getProductId())
+                    .orElseThrow(() -> new BaseCustomException(NOT_EXIST_PRODUCT));
+            final Product product = productInvestLog.getProduct();
+            if (Objects.isNull(product)) {
+                throw new BaseCustomException(NOT_EXIST_PRODUCT);
+            }
 
-        // Update invest status
-        productInvestStatus.applyInvestResult(
-                product.getTotalAmount(),
-                productRedisService.getInvestedAmount(product),
-                productRedisService.getInvestingCnt(product)
-        );
-
-        // Update invest user
-        final ProductInvestUserId productInvestUserId = new ProductInvestUserId(productInvestLog.getUserId(), product);
-        final Optional<ProductInvestUser> optionalInvestUser = productInvestUserRepository.findById(productInvestUserId);
-
-        if (optionalInvestUser.isPresent()) {
-            final ProductInvestUser productInvestUser = optionalInvestUser.get();
-            productInvestUser.updateTotalInvestAmount(productInvestLog.getAccrueUserInvest());
-        } else {
-            productInvestUserRepository.save(
-                    ProductInvestUser.builder()
-                            .id(productInvestUserId)
-                            .investAmount(productInvestLog.getAccrueUserInvest())
-                            .build()
+            // Update invest status
+            productInvestStatus.applyInvestResult(
+                    product.getTotalAmount(),
+                    productRedisService.getInvestedAmount(product),
+                    productRedisService.getInvestingCnt(product)
             );
+
+            // Update invest user
+            final ProductInvestUserId productInvestUserId = new ProductInvestUserId(productInvestLog.getUserId(), product);
+            final Optional<ProductInvestUser> optionalInvestUser = productInvestUserRepository.findById(productInvestUserId);
+
+            if (optionalInvestUser.isPresent()) {
+                final ProductInvestUser productInvestUser = optionalInvestUser.get();
+                productInvestUser.updateTotalInvestAmount(productInvestLog.getAccrueUserInvest());
+            } else {
+                productInvestUserRepository.save(
+                        ProductInvestUser.builder()
+                                .id(productInvestUserId)
+                                .investAmount(productInvestLog.getAccrueUserInvest())
+                                .build()
+                );
+            }
+
+        }catch (Exception e){
+            productInvestLog.updateLogFail(e.getMessage());
         }
 
     }
