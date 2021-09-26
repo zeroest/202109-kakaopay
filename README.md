@@ -199,7 +199,7 @@ Response body
 
 4. 투자 실패처리
    - 투자 완료처리 과정에서 오류 발생시 메세지로 전달받은 investLogId의 로그건을  
-   fail_reason = NOT_EXIST_PRODUCT 와 같이 업데이트하여 추후 트래킹 할 수 있도록 한다.
+   fail_reason = "NOT_EXIST_PRODUCT : 1" 와 같이 업데이트하여 추후 트래킹 할 수 있도록 한다.
  
 
 ### 3. 나의 투자상품 조회 API
