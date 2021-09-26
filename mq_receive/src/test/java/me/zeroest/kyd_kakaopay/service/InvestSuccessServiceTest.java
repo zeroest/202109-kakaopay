@@ -1,6 +1,8 @@
 package me.zeroest.kyd_kakaopay.service;
 
+import me.zeroest.kyd_kakaopay.config.rabbitmq.RabbitConfig;
 import me.zeroest.kyd_kakaopay.domain.invest.log.ProductInvestLog;
+import me.zeroest.kyd_kakaopay.domain.invest.user.ProductInvestUserId;
 import me.zeroest.kyd_kakaopay.domain.product.Product;
 import me.zeroest.kyd_kakaopay.domain.product.status.ProductInvestStatus;
 import me.zeroest.kyd_kakaopay.dto.rabbitmq.InvestMessage;
@@ -8,6 +10,7 @@ import me.zeroest.kyd_kakaopay.exception.BaseCustomException;
 import me.zeroest.kyd_kakaopay.exception.ExceptionCode;
 import me.zeroest.kyd_kakaopay.repository.invest.status.ProductInvestStatusRepository;
 import me.zeroest.kyd_kakaopay.repository.invest.log.ProductInvestLogRepository;
+import me.zeroest.kyd_kakaopay.repository.invest.user.ProductInvestUserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,17 +25,24 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class InvestServiceTest {
+class InvestSuccessServiceTest {
 
     @Mock
     private ProductInvestLogRepository productInvestLogRepository;
     @Mock
     private ProductInvestStatusRepository productInvestStatusRepository;
+    @Mock
+    private ProductInvestUserRepository productInvestUserRepository;
+
+    @Mock
+    private ProductRedisService productRedisService;
 
     @InjectMocks
-    private InvestService investService;
+    private InvestSuccessService investSuccessService;
 
-    private InvestMessage investMessage = new InvestMessage("1:1");
+    private long productId = 1L;
+    private long investLogId = 1L;
+    private InvestMessage investMessage = new InvestMessage(productId + RabbitConfig.MESSAGE_SPLIT + investLogId);
 
 
     @DisplayName("investSuccess - 성공")
@@ -48,19 +58,25 @@ class InvestServiceTest {
         when(productInvestStatusRepository.findByProductId(any(Long.class)))
                 .thenReturn(Optional.of(
                         ProductInvestStatus.builder()
+                                .id(investLogId)
                                 .product(
-                                        Product.builder().build()
+                                        Product.builder()
+                                                .id(productId)
+                                                .totalAmount(1000L)
+                                                .build()
                                 )
                                 .build()
                 ));
 
-        final BaseCustomException notExistProduct = assertThrows(
-                BaseCustomException.class,
-                () -> investService.investSuccess(investMessage)
-        );
+        when(productRedisService.getInvestedAmount(any(Product.class)))
+                .thenReturn(100L);
+        when(productRedisService.getInvestingCnt(any(Product.class)))
+                .thenReturn(10L);
 
-        assertEquals(ExceptionCode.NOT_EXIST_PRODUCT.getCode(), notExistProduct.getCode());
-        assertEquals(ExceptionCode.NOT_EXIST_PRODUCT.getMessage(), notExistProduct.getMessage());
+        when(productInvestUserRepository.findById(any(ProductInvestUserId.class)))
+                .thenReturn(Optional.empty());
+
+        assertDoesNotThrow(() -> investSuccessService.investSuccess(investMessage));
 
     }
 
@@ -75,11 +91,11 @@ class InvestServiceTest {
 
         final BaseCustomException notExistInvestLog = assertThrows(
                 BaseCustomException.class,
-                () -> investService.investSuccess(investMessage)
+                () -> investSuccessService.investSuccess(investMessage)
         );
 
         assertEquals(ExceptionCode.NOT_EXIST_INVEST_LOG.getCode(), notExistInvestLog.getCode());
-        assertEquals(ExceptionCode.NOT_EXIST_INVEST_LOG.getMessage(), notExistInvestLog.getMessage());
+        assertEquals(ExceptionCode.NOT_EXIST_INVEST_LOG.getMessage() + investLogId, notExistInvestLog.getMessage());
 
     }
 
@@ -98,7 +114,7 @@ class InvestServiceTest {
 
         final BaseCustomException notExistProduct = assertThrows(
                 BaseCustomException.class,
-                () -> investService.investSuccess(investMessage)
+                () -> investSuccessService.investSuccess(investMessage)
         );
 
         assertEquals(ExceptionCode.NOT_EXIST_PRODUCT.getCode(), notExistProduct.getCode());
@@ -123,7 +139,7 @@ class InvestServiceTest {
 
         final BaseCustomException notExistProduct = assertThrows(
                 BaseCustomException.class,
-                () -> investService.investSuccess(investMessage)
+                () -> investSuccessService.investSuccess(investMessage)
         );
 
         assertEquals(ExceptionCode.NOT_EXIST_PRODUCT.getCode(), notExistProduct.getCode());

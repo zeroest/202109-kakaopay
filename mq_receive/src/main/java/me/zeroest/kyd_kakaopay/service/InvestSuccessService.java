@@ -24,7 +24,7 @@ import static me.zeroest.kyd_kakaopay.exception.ExceptionCode.NOT_EXIST_PRODUCT;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class InvestService {
+public class InvestSuccessService {
 
     private final ProductRedisService productRedisService;
 
@@ -52,7 +52,7 @@ public class InvestService {
             // Get product status
             final ProductInvestStatus productInvestStatus = productInvestStatusRepository.findByProductId(investMessage.getProductId())
                     .orElseThrow(() -> new BaseCustomException(NOT_EXIST_PRODUCT));
-            final Product product = productInvestLog.getProduct();
+            final Product product = productInvestStatus.getProduct();
             if (Objects.isNull(product)) {
                 throw new BaseCustomException(NOT_EXIST_PRODUCT);
             }
@@ -82,6 +82,7 @@ public class InvestService {
 
         }catch (Exception e){
             productInvestLog.updateLogFail(e.getMessage());
+            throw e;
         }
 
     }

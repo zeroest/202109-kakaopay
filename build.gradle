@@ -107,7 +107,7 @@ project(':http_write'){
     }
 }
 
-project(':invest_server'){
+project(':mq_receive'){
     dependencies {
         compile project(':core')
     }

@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class KydKakaopayApplication {
+public class MqReceiveApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(KydKakaopayApplication.class, args);
+        SpringApplication.run(MqReceiveApplication.class, args);
     }
 
 }

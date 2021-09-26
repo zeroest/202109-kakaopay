@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.zeroest.kyd_kakaopay.config.rabbitmq.RabbitConfig;
 import me.zeroest.kyd_kakaopay.dto.rabbitmq.InvestMessage;
-import me.zeroest.kyd_kakaopay.service.InvestService;
+import me.zeroest.kyd_kakaopay.service.InvestSuccessService;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 @RequiredArgsConstructor
 public class InvestMessageListener {
 
-    private final InvestService investService;
+    private final InvestSuccessService investService;
 
     @RabbitListener(queues = RabbitConfig.INVEST_QUEUE_NAME)
     public void investMessage(final Message message) {
